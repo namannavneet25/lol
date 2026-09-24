@@ -206,9 +206,12 @@ class CalibrationRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_error(404, "Not found")
             return
         origin = self.headers.get("Origin")
-        host = self.headers.get("Host", "")
-        if origin is not None and origin != f"https://{host}":
-            return self._json(403, {"status": "error", "error": "cross-origin request refused"})
+        host = self.headers.get("X-Forwarded-Host", self.headers.get("Host", ""))
+        proto = self.headers.get("X-Forwarded-Proto", "https")
+        if origin is not None and origin != f"{proto}://{host}":
+            # Fallback for some local setups where port might be omitted or mismatched
+            if not (origin.startswith("http://localhost") or origin.startswith("http://127.0.0.1")):
+                return self._json(403, {"status": "error", "error": "cross-origin request refused"})
         if self.headers.get("Content-Type", "").split(";")[0].strip().lower() != "application/json":
             return self._json(415, {"status": "error", "error": "Content-Type must be application/json"})
         try:
@@ -240,24 +243,26 @@ class CalibrationRequestHandler(http.server.SimpleHTTPRequestHandler):
         super().end_headers()
 
 
-def print_banner(ip_addr: str, port: int):
+def print_banner(ip_addr: str, port: int, use_http: bool = False):
     """Prints clear connection instructions."""
-    url = f"https://{ip_addr}:{port}"
-    local_url = f"https://localhost:{port}"
+    scheme = "http" if use_http else "https"
+    url = f"{scheme}://{ip_addr}:{port}"
+    local_url = f"{scheme}://localhost:{port}"
 
     print("=" * 66)
-    print("      IDR NAVIGATOR & CALIBRATION SERVER (HTTPS)")
+    print(f"      IDR NAVIGATOR & CALIBRATION SERVER ({scheme.upper()})")
     print("=" * 66)
     print(f"  Navigator (mobile): \033[1;32m{url}/nav/\033[0m")
     print(f"  Calibrator        : \033[1;32m{url}/calibration/\033[0m")
     print(f"  Local desktop     : \033[1;36m{local_url}/nav/\033[0m")
     print("-" * 66)
     print("  📱 HOW TO CONNECT FROM YOUR SMARTPHONE:")
-    print(f"  1. Ensure your phone is connected to the same Wi-Fi network.")
+    print(f"  1. Ensure your phone is connected to the same Wi-Fi network (or internet).")
     print(f"  2. Open Chrome or Safari on your phone and navigate to:")
     print(f"     👉  \033[1;32m{url}/calibration/\033[0m  (then {url}/nav/)")
-    print(f"  3. You will see a self-signed SSL warning ('Your connection is not private').")
-    print(f"     Tap 'Advanced' -> 'Proceed to {ip_addr} (unsafe)'.")
+    if not use_http:
+        print(f"  3. You will see a self-signed SSL warning ('Your connection is not private').")
+        print(f"     Tap 'Advanced' -> 'Proceed to {ip_addr} (unsafe)'.")
     print(f"  4. Tap 'Enable Sensors' and begin testing:")
     print(f"     - Test 1 (Wobble/Tilt Immunity): Wobble phone, watch True Yaw stay flat.")
     print(f"     - Test 2 (Gravity Removal): Total |a| ~9.81, Horiz |a| ~0.")
@@ -266,25 +271,26 @@ def print_banner(ip_addr: str, port: int):
     print("  Press Ctrl+C to stop the server.\n")
 
 
-def run_server(port: int = 8443, ip_addr: str = None):
+def run_server(port: int = 8443, ip_addr: str = None, use_http: bool = False):
     if not ip_addr:
         ip_addr = get_lan_ip()
 
-    cert_path = CERTS_DIR / "cert.pem"
-    key_path = CERTS_DIR / "key.pem"
-
-    if not cert_path.exists() or not key_path.exists():
-        generate_self_signed_cert(cert_path, key_path, ip_addr)
-
-    # Setup SSL Context
-    context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-    context.load_cert_chain(certfile=str(cert_path), keyfile=str(key_path))
-
     server_address = ("0.0.0.0", port)
     httpd = http.server.ThreadingHTTPServer(server_address, CalibrationRequestHandler)
-    httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
 
-    print_banner(ip_addr, port)
+    if not use_http:
+        cert_path = CERTS_DIR / "cert.pem"
+        key_path = CERTS_DIR / "key.pem"
+
+        if not cert_path.exists() or not key_path.exists():
+            generate_self_signed_cert(cert_path, key_path, ip_addr)
+
+        # Setup SSL Context
+        context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+        context.load_cert_chain(certfile=str(cert_path), keyfile=str(key_path))
+        httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
+
+    print_banner(ip_addr, port, use_http)
 
     try:
         httpd.serve_forever()
@@ -299,6 +305,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="IDR Orientation Calibration HTTPS Server")
     parser.add_argument("--port", type=int, default=8443, help="Port to listen on (default: 8443)")
     parser.add_argument("--ip", type=str, default=None, help="LAN IP address to bind/display (auto-detected if omitted)")
+    parser.add_argument("--http", action="store_true", help="Run in HTTP mode instead of HTTPS (useful for reverse proxies like Render)")
     args = parser.parse_args()
 
-    run_server(port=args.port, ip_addr=args.ip)
+    # On Render, the RENDER env var is set to 'true'.
+    is_render = os.environ.get("RENDER") == "true"
+    use_http = args.http or is_render
+    
+    # If on Render, respect the PORT env var if not explicitly overridden by args
+    if is_render and "PORT" in os.environ and args.port == 8443:
+        args.port = int(os.environ["PORT"])
+
+    run_server(port=args.port, ip_addr=args.ip, use_http=use_http)
