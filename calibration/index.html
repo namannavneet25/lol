@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>IDR — Pre-Drive Stand Calibrator</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+            --accent-purple: #a855f7;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            padding: 12px;
+            padding-bottom: 30px;
+        }
+
+        header {
+            text-align: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 16px;
+        }
+
+        header h1 {
+            font-size: 1.15rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .permission-banner {
+            background: linear-gradient(135deg, #1e3a8a, #0369a1);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+        }
+
+        .permission-banner h2 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .permission-banner p {
+            font-size: 0.8rem;
+            color: #e0f2fe;
+            margin-bottom: 12px;
+        }
+
+        .btn {
+            background: var(--accent-cyan);
+            color: #0f172a;
+            border: none;
+            padding: 10px 16px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+            opacity: 0.9;
+        }
+
+        .btn-green {
+            background: var(--accent-green);
+            color: #064e3b;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .btn-preset {
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn-preset.active {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            background: #112240;
+            font-weight: 700;
+        }
+
+        /* Attitude Section */
+        .attitude-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .attitude-card {
+            flex: 1;
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .horizon-canvas {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: #0284c7;
+            border: 3px solid var(--border-color);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .attitude-readouts {
+            margin-top: 10px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            text-align: center;
+        }
+
+        .readout-box {
+            background: #0f172a;
+            padding: 6px;
+            border-radius: 6px;
+        }
+
+        .readout-box .label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .readout-box .val {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+            font-family: monospace;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .status-badge.ok {
+            background: #064e3b;
+            color: #6ee7b7;
+            border: 1px solid #059669;
+        }
+
+        .status-badge.warn {
+            background: #78350f;
+            color: #fde68a;
+            border: 1px solid #d97706;
+        }
+
+        /* Charts */
+        .chart-section {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 16px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .chart-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .chart-legend {
+            font-size: 0.7rem;
+            display: flex;
+            gap: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        canvas.strip-chart {
+            width: 100%;
+            height: 110px;
+            background: #090d16;
+            border-radius: 6px;
+            display: block;
+        }
+
+        .instruction-box {
+            background: #111c30;
+            border-left: 3px solid var(--accent-cyan);
+            padding: 10px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            color: #cbd5e1;
+            margin-top: 10px;
+        }
+
+        /* Telemetry Grid */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-val {
+            font-size: 1.15rem;
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        .card-sub {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 14px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 16px;
+        }
+
+        .control-panel h3 {
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .control-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar-bg {
+            height: 8px;
+            background: #334155;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-green);
+            transition: width 0.1s linear;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>IDR Stand Calibrator</h1>
+        <p>Pre-Drive Vehicle Mount & Coordinate System Alignment</p>
+    </header>
+
+    <!-- Permission Request -->
+    <div id="permissionCard" class="permission-banner">
+        <h2>Vehicle Motion Sensor Access</h2>
+        <p>Place phone into vehicle mount, then tap below to initialize motion sensors.</p>
+        <button id="btnGrantPermission" class="btn">Enable Sensors</button>
+    </div>
+
+    <!-- Main View -->
+    <main id="mainView" style="display: none;">
+        
+        <!-- Stand Attitude & Yaw Readout -->
+        <section class="attitude-container">
+            <div class="attitude-card">
+                <canvas id="horizonCanvas" class="horizon-canvas" width="140" height="140"></canvas>
+                <div class="attitude-readouts">
+                    <div class="readout-box">
+                        <div class="label">Mount Pitch</div>
+                        <div id="valPitch" class="val">0.0°</div>
+                    </div>
+                    <div class="readout-box">
+                        <div class="label">Mount Roll</div>
+                        <div id="valRoll" class="val">0.0°</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="attitude-card" style="justify-content: space-around;">
+                <div style="text-align: center; width: 100%;">
+                    <div class="label" style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Vehicle Yaw (Z)</div>
+                    <div id="valTrueYaw" style="font-size: 1.6rem; font-weight: 800; color: var(--accent-green); font-family: monospace;">0.0°/s</div>
+                </div>
+                <div style="text-align: center; width: 100%;">
+                    <div class="label" style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Raw Phone Gz</div>
+                    <div id="valRawGz" style="font-size: 1.05rem; font-weight: 700; color: var(--accent-rose); font-family: monospace;">0.0°/s</div>
+                </div>
+                <div id="statusStandLock" class="status-badge warn">STAND NOT LOCKED</div>
+            </div>
+        </section>
+
+        <!-- Waveform 1: Vehicle Yaw vs Stand Bumps -->
+        <section class="chart-section">
+            <div class="chart-header">
+                <span class="chart-title">Vehicle Yaw vs Mount Bumps</span>
+                <div class="chart-legend">
+                    <div class="legend-item"><div class="legend-dot" style="background: var(--accent-purple);"></div>Mount Bump (X/Y)</div>
+                    <div class="legend-item"><div class="legend-dot" style="background: var(--accent-rose);"></div>Raw Gz</div>
+                    <div class="legend-item"><div class="legend-dot" style="background: var(--accent-green);"></div>Vehicle Yaw (Z)</div>
+                </div>
+            </div>
+            <canvas id="chartYaw" class="strip-chart" width="400" height="110"></canvas>
+            <div id="instructionTest1" class="instruction-box">
+                👉 <b>Step 1</b>: Secure phone in vehicle mount. Tap <b>"Lock Stand & Calibrate (3s)"</b> below while parked.<br>
+                🧪 <b>Road Bump Test</b>: After locking, tap or rock your mount. Notice vibrations (Purple) appear on horizontal axes, while <b>Vehicle Yaw (Green) stays pinned at 0.0°/s</b>!
+            </div>
+        </section>
+
+        <!-- Waveform 2: Leveling Acceleration -->
+        <section class="chart-section">
+            <div class="chart-header">
+                <span class="chart-title">Leveling Acceleration (|a| vs |a_horiz|)</span>
+                <div class="chart-legend">
+                    <div class="legend-item"><div class="legend-dot" style="background: #38bdf8;"></div>Total |a|</div>
+                    <div class="legend-item"><div class="legend-dot" style="background: var(--accent-amber);"></div>Horiz |a|</div>
+                </div>
+            </div>
+            <canvas id="chartAccel" class="strip-chart" width="400" height="110"></canvas>
+            <div class="instruction-box">
+                ⚖️ <b>Stationary Leveling</b>: Once stand is locked, <b>Total |a|</b> (Blue) sits at <b>9.81 m/s²</b> and <b>Horiz |a|</b> (Orange) drops straight to <b>0.0 m/s²</b> with zero gravity contamination!
+            </div>
+        </section>
+
+        <!-- Telemetry Cards -->
+        <section class="grid-cards">
+            <div class="card">
+                <div class="card-title">Mount Leveling <span>State</span></div>
+                <div id="valStandState" class="card-val" style="color: var(--accent-amber); font-size: 1.0rem;">Uncalibrated</div>
+                <div id="valGravVec" class="card-sub">[0.0, 0.0, 1.0]</div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Sampling Rate <span>Hz</span></div>
+                <div id="valRateHz" class="card-val" style="color: var(--accent-green);">0 Hz</div>
+                <div id="valFrameCount" class="card-sub">0 frames captured</div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Gyro Drift Bias <span>°/s</span></div>
+                <div id="valBiasGz" class="card-val" style="color: var(--accent-amber);">Uncalibrated</div>
+                <div id="valBiasStatus" class="card-sub">Keep still in mount & lock</div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Mount Azimuth <span>θ</span></div>
+                <div id="valMountOffset" class="card-val">0.0°</div>
+                <div class="card-sub">Vehicle Forward Angle</div>
+            </div>
+        </section>
+
+        <!-- Pre-Drive Calibration Controls -->
+        <section class="control-panel">
+            <h3>Pre-Drive Stand Calibration</h3>
+            
+            <button id="btnLockStand" class="btn btn-green" style="width: 100%; font-size: 1.0rem; padding: 12px;">
+                🔒 Lock Stand & Calibrate (3s)
+            </button>
+            <div id="progressBg" class="progress-bar-bg">
+                <div id="progressFill" class="progress-bar-fill"></div>
+            </div>
+
+            <div style="margin-top: 14px; margin-bottom: 8px; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">
+                Mount Azimuth Offset (Car Forward Direction):
+            </div>
+            <div class="control-row">
+                <button id="btnPreset0" class="btn-preset active" style="flex: 1;">Straight (0°)</button>
+                <button id="btnPreset15" class="btn-preset" style="flex: 1;">Driver (+15°)</button>
+                <button id="btnPreset25" class="btn-preset" style="flex: 1;">Driver (+25°)</button>
+                <button id="btnPresetAuto" class="btn-preset" style="flex: 1;">Auto-Lock</button>
+            </div>
+
+            <div class="control-row" style="margin-top: 12px;">
+                <button id="btnSyncServer" class="btn btn-outline" style="flex: 1; border-color: var(--accent-cyan); color: var(--accent-cyan);">Save to Project</button>
+                <button id="btnExportJSON" class="btn btn-outline" style="flex: 1;">Download JSON</button>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="orientation_calibrator.js"></script>
+    <script>
+        const calibrator = new OrientationCalibrator(0.05);
+
+        // UI References
+        const permissionCard = document.getElementById('permissionCard');
+        const mainView = document.getElementById('mainView');
+        const btnGrantPermission = document.getElementById('btnGrantPermission');
+        const btnLockStand = document.getElementById('btnLockStand');
+        const btnSyncServer = document.getElementById('btnSyncServer');
+        const btnExportJSON = document.getElementById('btnExportJSON');
+        const progressBg = document.getElementById('progressBg');
+        const progressFill = document.getElementById('progressFill');
+
+        // Azimuth Preset Buttons
+        const btnPreset0 = document.getElementById('btnPreset0');
+        const btnPreset15 = document.getElementById('btnPreset15');
+        const btnPreset25 = document.getElementById('btnPreset25');
+        const btnPresetAuto = document.getElementById('btnPresetAuto');
+        const presetButtons = [btnPreset0, btnPreset15, btnPreset25, btnPresetAuto];
+
+        // Telemetry & Status Readouts
+        const valPitch = document.getElementById('valPitch');
+        const valRoll = document.getElementById('valRoll');
+        const valTrueYaw = document.getElementById('valTrueYaw');
+        const valRawGz = document.getElementById('valRawGz');
+        const statusStandLock = document.getElementById('statusStandLock');
+        const valStandState = document.getElementById('valStandState');
+        const valGravVec = document.getElementById('valGravVec');
+        const valRateHz = document.getElementById('valRateHz');
+        const valFrameCount = document.getElementById('valFrameCount');
+        const valBiasGz = document.getElementById('valBiasGz');
+        const valBiasStatus = document.getElementById('valBiasStatus');
+        const valMountOffset = document.getElementById('valMountOffset');
+
+        // Canvases
+        const horizonCanvas = document.getElementById('horizonCanvas');
+        const horizonCtx = horizonCanvas.getContext('2d');
+        const chartYaw = document.getElementById('chartYaw');
+        const chartYawCtx = chartYaw.getContext('2d');
+        const chartAccel = document.getElementById('chartAccel');
+        const chartAccelCtx = chartAccel.getContext('2d');
+
+        // Chart History Buffers (100 samples)
+        const HISTORY_LEN = 100;
+        const histRawGz = new Array(HISTORY_LEN).fill(0);
+        const histTrueYaw = new Array(HISTORY_LEN).fill(0);
+        const histTiltWobble = new Array(HISTORY_LEN).fill(0);
+        const histRawAccel = new Array(HISTORY_LEN).fill(9.81);
+        const histHorizAccel = new Array(HISTORY_LEN).fill(0);
+
+        let frameCount = 0;
+        let lastSampleTime = performance.now();
+        let currentRateHz = 0;
+
+        // --- Permission Request ---
+        btnGrantPermission.addEventListener('click', async () => {
+            if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+                try {
+                    const response = await DeviceMotionEvent.requestPermission();
+                    if (response === 'granted') {
+                        startListening();
+                    } else {
+                        alert('Motion sensor permission denied.');
+                    }
+                } catch (e) {
+                    alert('Permission error: ' + e);
+                }
+            } else {
+                startListening();
+            }
+        });
+
+        function startListening() {
+            permissionCard.style.display = 'none';
+            mainView.style.display = 'block';
+            window.addEventListener('devicemotion', onDeviceMotion, true);
+        }
+
+        // --- DeviceMotion Handler ---
+        function onDeviceMotion(event) {
+            const now = performance.now();
+            const dt = (now - lastSampleTime) / 1000.0;
+            lastSampleTime = now;
+
+            if (dt > 0) {
+                currentRateHz = Math.round(0.8 * currentRateHz + 0.2 * (1.0 / dt));
+            }
+
+            const acc = event.accelerationIncludingGravity || event.acceleration;
+            const rot = event.rotationRate;
+            if (!acc || !rot) return;
+
+            // iOS reports accelerationIncludingGravity with the opposite sign; match the navigator (nav/js/app.js)
+            const accSign = /iPad|iPhone|iPod/.test(navigator.userAgent) ? -1 : 1;
+            const ax = accSign * (acc.x || 0);
+            const ay = accSign * (acc.y || 0);
+            const az = accSign * (acc.z || 0);
+
+            const gx = (rot.beta || 0) * (Math.PI / 180.0);
+            const gy = (rot.gamma || 0) * (Math.PI / 180.0);
+            const gz = (rot.alpha || 0) * (Math.PI / 180.0);
+
+            const res = calibrator.update(ax, ay, az, gx, gy, gz);
+            frameCount++;
+
+            // Update Histories
+            histRawGz.push(res.rawGzDeg);
+            histRawGz.shift();
+
+            histTrueYaw.push(res.trueYawRateDeg);
+            histTrueYaw.shift();
+
+            histTiltWobble.push(res.tiltRateDeg);
+            histTiltWobble.shift();
+
+            histRawAccel.push(res.aRawMag);
+            histRawAccel.shift();
+
+            histHorizAccel.push(res.aHorizMag);
+            histHorizAccel.shift();
+
+            // Telemetry Readouts
+            valPitch.textContent = `${res.pitchDeg.toFixed(1)}°`;
+            valRoll.textContent = `${res.rollDeg.toFixed(1)}°`;
+            valTrueYaw.textContent = `${res.trueYawRateDeg.toFixed(1)}°/s`;
+            valRawGz.textContent = `${res.rawGzDeg.toFixed(1)}°/s`;
+
+            valGravVec.textContent = `[${res.gVector.map(v => v.toFixed(2)).join(', ')}]`;
+            valRateHz.textContent = `${currentRateHz} Hz`;
+            valFrameCount.textContent = `${frameCount} frames captured`;
+
+            // Stand Lock Badge State
+            if (res.isStandLocked) {
+                statusStandLock.textContent = "🔒 STAND LOCKED";
+                statusStandLock.className = "status-badge ok";
+                valStandState.textContent = "LOCKED (Fixed)";
+                valStandState.style.color = "var(--accent-green)";
+            } else {
+                statusStandLock.textContent = "STAND NOT LOCKED";
+                statusStandLock.className = "status-badge warn";
+            }
+
+            // Draw Visualizations
+            drawHorizon(res.pitchDeg, res.rollDeg);
+            drawYawChart(chartYawCtx, histRawGz, histTrueYaw, histTiltWobble, res.isStandLocked);
+            drawAccelChart(chartAccelCtx, histRawAccel, histHorizAccel);
+        }
+
+        // --- Artificial Horizon ---
+        function drawHorizon(pitchDeg, rollDeg) {
+            const w = horizonCanvas.width;
+            const h = horizonCanvas.height;
+            const cx = w / 2;
+            const cy = h / 2;
+
+            horizonCtx.save();
+            horizonCtx.clearRect(0, 0, w, h);
+
+            horizonCtx.beginPath();
+            horizonCtx.arc(cx, cy, cx - 2, 0, Math.PI * 2);
+            horizonCtx.clip();
+
+            horizonCtx.translate(cx, cy);
+            horizonCtx.rotate(-rollDeg * (Math.PI / 180.0));
+
+            const pitchOffset = pitchDeg * 1.2;
+
+            horizonCtx.fillStyle = '#0284c7';
+            horizonCtx.fillRect(-w, -h * 2 + pitchOffset, w * 2, h * 2);
+
+            horizonCtx.fillStyle = '#78350f';
+            horizonCtx.fillRect(-w, pitchOffset, w * 2, h * 2);
+
+            horizonCtx.strokeStyle = '#ffffff';
+            horizonCtx.lineWidth = 3;
+            horizonCtx.beginPath();
+            horizonCtx.moveTo(-w, pitchOffset);
+            horizonCtx.lineTo(w, pitchOffset);
+            horizonCtx.stroke();
+
+            horizonCtx.restore();
+
+            horizonCtx.strokeStyle = '#f59e0b';
+            horizonCtx.lineWidth = 3;
+            horizonCtx.beginPath();
+            horizonCtx.moveTo(cx - 25, cy);
+            horizonCtx.lineTo(cx - 8, cy);
+            horizonCtx.lineTo(cx, cy + 8);
+            horizonCtx.lineTo(cx + 8, cy);
+            horizonCtx.lineTo(cx + 25, cy);
+            horizonCtx.stroke();
+        }
+
+        // --- Draw Yaw & Bump Chart ---
+        function drawYawChart(ctx, rawGz, trueYaw, tiltWobble, isLocked) {
+            const w = ctx.canvas.width;
+            const h = ctx.canvas.height;
+            const cy = h / 2;
+            const maxVal = 250;
+
+            ctx.clearRect(0, 0, w, h);
+
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.strokeStyle = '#1e293b';
+
+            const yTop = cy - (200 / maxVal) * (cy - 12);
+            ctx.beginPath();
+            ctx.moveTo(0, yTop);
+            ctx.lineTo(w, yTop);
+            ctx.stroke();
+
+            const yBot = cy - (-200 / maxVal) * (cy - 12);
+            ctx.beginPath();
+            ctx.moveTo(0, yBot);
+            ctx.lineTo(w, yBot);
+            ctx.stroke();
+
+            ctx.setLineDash([]);
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(0, cy);
+            ctx.lineTo(w, cy);
+            ctx.stroke();
+
+            ctx.font = '10px monospace';
+            ctx.fillStyle = '#64748b';
+            ctx.fillText('+200°/s', 6, yTop - 3);
+            ctx.fillText(isLocked ? '0°/s (Vehicle Yaw Target)' : '0°/s (Zero Baseline)', 6, cy - 3);
+            ctx.fillText('-200°/s', 6, yBot + 11);
+
+            const plot = (data, color, width, alpha = 1.0) => {
+                ctx.save();
+                ctx.strokeStyle = color;
+                ctx.globalAlpha = alpha;
+                ctx.lineWidth = width;
+                ctx.beginPath();
+                for (let i = 0; i < data.length; i++) {
+                    const x = (i / (data.length - 1)) * w;
+                    const clamped = Math.max(-maxVal, Math.min(maxVal, data[i]));
+                    const y = cy - (clamped / maxVal) * (cy - 12);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                ctx.restore();
+            };
+
+            // Plot: Mount Bumps/Rocking (Purple), Raw Gz (Red), Vehicle Yaw (Green)
+            plot(tiltWobble, '#a855f7', 1.8, 0.85);
+            plot(rawGz, '#f43f5e', 2.0);
+            plot(trueYaw, '#10b981', 2.5);
+        }
+
+        // --- Draw Leveling Accel Chart ---
+        function drawAccelChart(ctx, rawAccel, horizAccel) {
+            const w = ctx.canvas.width;
+            const h = ctx.canvas.height;
+            const maxVal = 16.0;
+
+            ctx.clearRect(0, 0, w, h);
+
+            const toY = (val) => {
+                const clamped = Math.max(0, Math.min(maxVal, val));
+                return (h - 16) - (clamped / maxVal) * (h - 32);
+            };
+
+            const y1g = toY(9.81);
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([5, 4]);
+            ctx.strokeStyle = '#0284c7';
+            ctx.beginPath();
+            ctx.moveTo(0, y1g);
+            ctx.lineTo(w, y1g);
+            ctx.stroke();
+
+            const y0 = toY(0);
+            ctx.setLineDash([]);
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(0, y0);
+            ctx.lineTo(w, y0);
+            ctx.stroke();
+
+            ctx.font = '10px monospace';
+            ctx.fillStyle = '#38bdf8';
+            ctx.fillText('9.81 m/s² (1g Resting Total)', 6, y1g - 4);
+            ctx.fillStyle = '#64748b';
+            ctx.fillText('0.0 m/s² (Resting Horiz Target)', 6, y0 - 4);
+
+            const plot = (data, color, width) => {
+                ctx.save();
+                ctx.strokeStyle = color;
+                ctx.lineWidth = width;
+                ctx.beginPath();
+                for (let i = 0; i < data.length; i++) {
+                    const x = (i / (data.length - 1)) * w;
+                    const y = toY(data[i]);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                ctx.restore();
+            };
+
+            plot(rawAccel, '#38bdf8', 2.0);
+            plot(horizAccel, '#f59e0b', 2.5);
+        }
+
+        // --- Stand Calibration Button Handler ---
+        btnLockStand.addEventListener('click', () => {
+            progressBg.style.display = 'block';
+            progressFill.style.width = '0%';
+            btnLockStand.disabled = true;
+            btnLockStand.textContent = '⏳ Locking Stand (Keep Car Still)...';
+
+            calibrator.onCalibrationProgress = (p) => {
+                progressFill.style.width = `${Math.round(p * 100)}%`;
+            };
+
+            calibrator.onCalibrationComplete = (res) => {
+                btnLockStand.disabled = false;
+                btnLockStand.textContent = '🔒 Re-Calibrate Stand (3s)';
+                setTimeout(() => { progressBg.style.display = 'none'; }, 500);
+
+                valBiasGz.textContent = `${res.gyroBiasDeg[2].toFixed(2)}°/s`;
+                valBiasGz.style.color = 'var(--accent-green)';
+                valBiasStatus.textContent = `Std: ±${res.gyroNoiseStdDeg.toFixed(2)}°/s (${res.sampleCount} pts)`;
+
+                alert(
+                    `✅ Stand Coordinate System Locked!\n` +
+                    `• Mount Pitch: ${res.rotationMatrix ? (Math.atan2(res.rotationMatrix[2][0], Math.hypot(res.rotationMatrix[2][1], res.rotationMatrix[2][2])) * 180 / Math.PI).toFixed(1) : 0}°\n` +
+                    `• Zero-Rate Bias: [${res.gyroBiasDeg.map(b => b.toFixed(2)).join(', ')}] °/s\n` +
+                    `• Resting Gravity: ${res.gravityRestingMag.toFixed(2)} m/s²\n\n` +
+                    `You can now drive! The coordinate frame is permanently locked.`
+                );
+            };
+
+            calibrator.startStationaryCalibration(3.0, currentRateHz || 60);
+        });
+
+        // --- Azimuth Preset Handlers ---
+        function setPreset(btn, angleDeg) {
+            presetButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            calibrator.mountingYawOffsetDeg = angleDeg;
+            calibrator.isMountingAligned = true;
+            valMountOffset.textContent = `${angleDeg.toFixed(1)}°`;
+            valMountOffset.style.color = 'var(--accent-green)';
+        }
+
+        btnPreset0.addEventListener('click', () => setPreset(btnPreset0, 0.0));
+        btnPreset15.addEventListener('click', () => setPreset(btnPreset15, 15.0));
+        btnPreset25.addEventListener('click', () => setPreset(btnPreset25, 25.0));
+        btnPresetAuto.addEventListener('click', () => {
+            const headingInput = prompt("Enter vehicle forward course in degrees (0 = North, 90 = East), or tap OK to auto-lock on first drive:", "0");
+            if (headingInput !== null) {
+                const targetDeg = parseFloat(headingInput) || 0.0;
+                setPreset(btnPresetAuto, targetDeg);
+            }
+        });
+
+        // --- Export & Sync Handlers ---
+        btnSyncServer.addEventListener('click', async () => {
+            try {
+                const data = calibrator.exportCalibrationJSON();
+                const resp = await fetch('/api/save_calibration', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const res = await resp.json();
+                if (res.status === 'ok') {
+                    alert('Calibration successfully saved to project root (calibration.json)!');
+                } else {
+                    alert('Error saving calibration: ' + res.error);
+                }
+            } catch (err) {
+                alert('Could not reach server: ' + err);
+            }
+        });
+
+        btnExportJSON.addEventListener('click', () => {
+            const data = calibrator.exportCalibrationJSON();
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'calibration.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+</html>

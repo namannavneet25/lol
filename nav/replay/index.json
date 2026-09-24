@@ -1,0 +1,8 @@
+[
+ {
+  "trip": "S1",
+  "minutes": 30.0,
+  "file": "S1.json",
+  "map": "../maps/S1.geojson"
+ }
+]
