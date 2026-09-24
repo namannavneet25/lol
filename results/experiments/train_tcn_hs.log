@@ -1,0 +1,42 @@
+--- Tiny TCN training | 25763 params | window 40 | epochs 40 ---
+Epoch 01 | loss 14.437 | val MAE 4.87 m/s | 60s outage err median 41.2% mean 53.5% | 281s *
+Epoch 02 | loss 8.576 | val MAE 3.70 m/s | 60s outage err median 24.7% mean 33.2% | 230s *
+Epoch 03 | loss 5.467 | val MAE 3.73 m/s | 60s outage err median 22.9% mean 29.9% | 105s *
+Epoch 04 | loss 4.895 | val MAE 3.37 m/s | 60s outage err median 19.4% mean 25.7% | 102s *
+Epoch 05 | loss 4.562 | val MAE 2.91 m/s | 60s outage err median 14.4% mean 19.2% | 102s *
+Epoch 06 | loss 4.356 | val MAE 2.81 m/s | 60s outage err median 14.7% mean 17.9% | 101s *
+Epoch 07 | loss 4.124 | val MAE 2.72 m/s | 60s outage err median 12.8% mean 17.2% | 101s *
+Epoch 08 | loss 3.842 | val MAE 2.36 m/s | 60s outage err median 13.3% mean 16.3% | 101s *
+Epoch 09 | loss 3.766 | val MAE 3.14 m/s | 60s outage err median 16.5% mean 21.6% | 105s
+Epoch 10 | loss 3.626 | val MAE 2.90 m/s | 60s outage err median 17.0% mean 20.8% | 100s
+Epoch 11 | loss 3.472 | val MAE 2.90 m/s | 60s outage err median 15.7% mean 19.0% | 101s
+Epoch 12 | loss 3.416 | val MAE 2.27 m/s | 60s outage err median 13.2% mean 16.3% | 101s *
+Epoch 13 | loss 3.323 | val MAE 2.33 m/s | 60s outage err median 12.1% mean 16.3% | 101s
+Epoch 14 | loss 3.250 | val MAE 2.56 m/s | 60s outage err median 13.8% mean 16.9% | 102s
+Epoch 15 | loss 3.181 | val MAE 2.53 m/s | 60s outage err median 15.0% mean 16.9% | 101s
+Epoch 16 | loss 3.074 | val MAE 2.84 m/s | 60s outage err median 17.3% mean 21.3% | 100s
+Epoch 17 | loss 3.024 | val MAE 2.54 m/s | 60s outage err median 16.7% mean 18.8% | 107s
+Epoch 18 | loss 2.947 | val MAE 2.49 m/s | 60s outage err median 15.6% mean 18.0% | 108s
+Epoch 19 | loss 2.903 | val MAE 2.56 m/s | 60s outage err median 16.0% mean 18.1% | 105s
+Epoch 20 | loss 2.877 | val MAE 2.58 m/s | 60s outage err median 16.6% mean 19.4% | 105s
+Epoch 21 | loss 2.783 | val MAE 2.88 m/s | 60s outage err median 18.1% mean 22.3% | 105s
+Epoch 22 | loss 2.800 | val MAE 2.43 m/s | 60s outage err median 13.5% mean 17.3% | 107s
+Epoch 23 | loss 2.681 | val MAE 2.37 m/s | 60s outage err median 13.0% mean 17.1% | 107s
+Epoch 24 | loss 2.686 | val MAE 2.50 m/s | 60s outage err median 15.5% mean 18.5% | 110s
+Epoch 25 | loss 2.668 | val MAE 2.41 m/s | 60s outage err median 13.9% mean 17.1% | 106s
+Epoch 26 | loss 2.568 | val MAE 2.54 m/s | 60s outage err median 15.2% mean 18.5% | 106s
+Epoch 27 | loss 2.535 | val MAE 2.35 m/s | 60s outage err median 15.8% mean 17.7% | 105s
+Epoch 28 | loss 2.528 | val MAE 2.61 m/s | 60s outage err median 15.9% mean 19.3% | 106s
+Epoch 29 | loss 2.489 | val MAE 2.45 m/s | 60s outage err median 14.0% mean 17.5% | 105s
+Epoch 30 | loss 2.467 | val MAE 2.42 m/s | 60s outage err median 15.8% mean 19.0% | 105s
+Epoch 31 | loss 2.405 | val MAE 2.55 m/s | 60s outage err median 15.3% mean 19.4% | 105s
+Epoch 32 | loss 2.371 | val MAE 2.40 m/s | 60s outage err median 15.1% mean 17.8% | 105s
+Epoch 33 | loss 2.368 | val MAE 2.54 m/s | 60s outage err median 15.7% mean 18.5% | 105s
+Epoch 34 | loss 2.371 | val MAE 2.48 m/s | 60s outage err median 15.0% mean 18.6% | 105s
+Epoch 35 | loss 2.327 | val MAE 2.49 m/s | 60s outage err median 15.7% mean 18.3% | 105s
+Epoch 36 | loss 2.343 | val MAE 2.43 m/s | 60s outage err median 15.0% mean 18.1% | 109s
+Epoch 37 | loss 2.311 | val MAE 2.50 m/s | 60s outage err median 14.8% mean 18.5% | 105s
+Epoch 38 | loss 2.318 | val MAE 2.48 m/s | 60s outage err median 15.8% mean 18.2% | 108s
+Epoch 39 | loss 2.322 | val MAE 2.47 m/s | 60s outage err median 15.7% mean 18.1% | 107s
+Epoch 40 | loss 2.297 | val MAE 2.47 m/s | 60s outage err median 15.5% mean 18.2% | 110s
+Best epoch 12, checkpoint saved to models/tiny_tcn_hs.pth

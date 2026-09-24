@@ -1,0 +1,70 @@
+{
+ "checks": [
+  {
+   "name": "replay runs GNSS-aided before the tunnel",
+   "ok": true,
+   "detail": "GNSS-AIDED"
+  },
+  {
+   "name": "dead reckoning after GNSS is removed",
+   "ok": true,
+   "detail": "DEAD RECKONING"
+  },
+  {
+   "name": "GNSS-aided again after recovery",
+   "ok": true,
+   "detail": "GNSS-AIDED"
+  },
+  {
+   "name": "outage logged with a drift value",
+   "ok": true,
+   "detail": "1 73 s 571 m 8.6 m 1.5%"
+  },
+  {
+   "name": "replay keeps up with the 16x setting",
+   "ok": true,
+   "detail": "16.0x real time over 17 s"
+  },
+  {
+   "name": "live mode reports whether an offline map is loaded",
+   "ok": true,
+   "detail": "Live: no stand calibration; NO offline map - map matching off (run src/web/export_live_map.py)"
+  },
+  {
+   "name": "live mode loads the offline map when present",
+   "ok": true,
+   "detail": "Live: no stand calibration; offline map (883 roads)"
+  },
+  {
+   "name": "no page errors in the navigator",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "no failed requests in the navigator",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "calibrator page can save (same origin)",
+   "ok": true,
+   "detail": "HTTP 200"
+  },
+  {
+   "name": "invalid calibration is rejected",
+   "ok": true,
+   "detail": "HTTP 400"
+  },
+  {
+   "name": "cross-origin page cannot write calibration",
+   "ok": true,
+   "detail": "browser: blocked; calibration.json unchanged"
+  }
+ ],
+ "started": "2026-09-24T07:54:22.674Z",
+ "replay": {
+  "speedup": 16,
+  "outage_row": "1 73 s 571 m 8.6 m 1.5%"
+ },
+ "failures": 0
+}

@@ -1,0 +1,10 @@
+--trips S1 --seed 1 --out results/v2/S1_seed1.json
+--trips S1 --seed 2 --out results/v2/S1_seed2.json
+--trips Y1 --seed 1 --out results/v2/Y1_seed1.json
+--trips Y1 --seed 2 --out results/v2/Y1_seed2.json
+--trips S1 --gnss-latency 1.0 --out results/v2/S1_latency1s.json
+--trips Y1 --gnss-latency 1.0 --out results/v2/Y1_latency1s.json
+--trips S1 --gnss-source phone --out results/v2/S1_phonegps.json
+--trips Y1 --gnss-source phone --out results/v2/Y1_phonegps.json
+--trips S1 --configs ekf_ai_map_oracle --out results/v2/S1_oracle.json
+--trips Y1 --configs ekf_ai_map_oracle --out results/v2/Y1_oracle.json

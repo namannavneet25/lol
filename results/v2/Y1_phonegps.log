@@ -1,0 +1,16 @@
+[Y1 | outage_30s         | ekf_only  ] n= 51 drift median 141.0% p90 285.1% pass<10%   0.0% | end err median  384.4 m | 0.56 ms/frame | 45s
+[Y1 | outage_30s         | ekf_ai    ] n= 51 drift median  37.8% p90  69.4% pass<10%   7.8% | end err median  107.2 m | 1.27 ms/frame | 97s
+[Y1 | outage_30s         | ekf_ai_map] n= 51 drift median  40.5% p90  76.4% pass<10%  13.7% | end err median  107.7 m | 1.55 ms/frame | 118s
+[Y1 | outage_60s         | ekf_only  ] n= 42 drift median  84.4% p90 146.0% pass<10%   2.4% | end err median  453.6 m | 0.59 ms/frame | 47s
+[Y1 | outage_60s         | ekf_ai    ] n= 42 drift median  35.3% p90  85.1% pass<10%  11.9% | end err median  199.7 m | 1.29 ms/frame | 99s
+[Y1 | outage_60s         | ekf_ai_map] n= 42 drift median  34.4% p90  69.8% pass<10%  21.4% | end err median  149.6 m | 1.45 ms/frame | 110s
+[Y1 | outage_120s        | ekf_only  ] n= 29 drift median  66.6% p90  91.5% pass<10%   3.4% | end err median  733.4 m | 0.54 ms/frame | 43s
+[Y1 | outage_120s        | ekf_ai    ] n= 29 drift median  26.6% p90 114.8% pass<10%   6.9% | end err median  235.6 m | 0.77 ms/frame | 59s
+[Y1 | outage_120s        | ekf_ai_map] n= 29 drift median  32.8% p90  77.6% pass<10%  13.8% | end err median  285.7 m | 0.93 ms/frame | 71s
+[Y1 | ps_50m_under_1min  | ekf_only  ] n= 36 drift median 198.7% p90 1062.6% pass<10%   0.0% | end err median  100.3 m | 0.34 ms/frame | 27s
+[Y1 | ps_50m_under_1min  | ekf_ai    ] n= 36 drift median  93.8% p90 227.7% pass<10%   2.8% | end err median   47.4 m | 0.67 ms/frame | 52s
+[Y1 | ps_50m_under_1min  | ekf_ai_map] n= 36 drift median 105.4% p90 323.1% pass<10%   0.0% | end err median   53.2 m | 0.78 ms/frame | 60s
+[Y1 | ps_1km_highway     | ekf_only  ] n=  8 drift median  89.8% p90 106.6% pass<10%   0.0% | end err median  899.0 m | 0.28 ms/frame | 22s
+[Y1 | ps_1km_highway     | ekf_ai    ] n=  8 drift median  25.2% p90  81.3% pass<10%   0.0% | end err median  252.3 m | 0.64 ms/frame | 49s
+[Y1 | ps_1km_highway     | ekf_ai_map] n=  8 drift median  32.6% p90  74.8% pass<10%  25.0% | end err median  326.0 m | 0.79 ms/frame | 60s
+Saved results/v2/Y1_phonegps.json

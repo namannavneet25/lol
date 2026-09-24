@@ -1,0 +1,43 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Main_Street_North"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            91.736,
+            26.144
+          ],
+          [
+            91.736,
+            26.145
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Cross_Street_East"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            91.736,
+            26.145
+          ],
+          [
+            91.737,
+            26.145
+          ]
+        ]
+      }
+    }
+  ]
+}

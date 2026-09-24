@@ -1,0 +1,26 @@
+CorePipeline: Loaded model weights from models/tiny_tcn_best.pth
+[Y1 | outage_30s         | legacy    ] n= 51 drift median  93.5% p90 115.9% pass<10%   0.0% | end err median  211.4 m | 2.23 ms/frame | 169s
+[Y1 | outage_30s         | ekf_only  ] n= 51 drift median  35.0% p90 110.5% pass<10%  23.5% | end err median   76.0 m | 0.39 ms/frame | 31s
+[Y1 | outage_30s         | ekf_ai    ] n= 51 drift median  13.8% p90  34.5% pass<10%  25.5% | end err median   36.1 m | 1.18 ms/frame | 90s
+[Y1 | outage_30s         | ekf_ai_map] n= 51 drift median  12.2% p90  33.1% pass<10%  35.3% | end err median   29.9 m | 1.58 ms/frame | 121s
+CorePipeline: Loaded model weights from models/tiny_tcn_best.pth
+[Y1 | outage_60s         | legacy    ] n= 42 drift median  78.8% p90 101.4% pass<10%   0.0% | end err median  359.9 m | 1.60 ms/frame | 124s
+[Y1 | outage_60s         | ekf_only  ] n= 42 drift median  29.0% p90  79.7% pass<10%  14.3% | end err median  150.3 m | 0.39 ms/frame | 31s
+[Y1 | outage_60s         | ekf_ai    ] n= 42 drift median  17.6% p90  41.5% pass<10%  28.6% | end err median  102.2 m | 1.19 ms/frame | 91s
+[Y1 | outage_60s         | ekf_ai_map] n= 42 drift median   8.8% p90  36.4% pass<10%  59.5% | end err median   57.0 m | 1.51 ms/frame | 115s
+CorePipeline: Loaded model weights from models/tiny_tcn_best.pth
+[Y1 | outage_120s        | legacy    ] n= 29 drift median  72.2% p90  95.2% pass<10%   3.4% | end err median  765.4 m | 1.40 ms/frame | 107s
+[Y1 | outage_120s        | ekf_only  ] n= 29 drift median  36.9% p90  89.7% pass<10%  13.8% | end err median  363.7 m | 0.33 ms/frame | 26s
+[Y1 | outage_120s        | ekf_ai    ] n= 29 drift median  22.9% p90  35.2% pass<10%  13.8% | end err median  192.1 m | 0.76 ms/frame | 58s
+[Y1 | outage_120s        | ekf_ai_map] n= 29 drift median  12.0% p90  38.5% pass<10%  44.8% | end err median  102.2 m | 1.01 ms/frame | 77s
+CorePipeline: Loaded model weights from models/tiny_tcn_best.pth
+[Y1 | ps_50m_under_1min  | legacy    ] n= 36 drift median 121.9% p90 157.4% pass<10%   0.0% | end err median   61.6 m | 1.30 ms/frame | 100s
+[Y1 | ps_50m_under_1min  | ekf_only  ] n= 36 drift median  29.3% p90  73.8% pass<10%  25.0% | end err median   14.8 m | 0.51 ms/frame | 40s
+[Y1 | ps_50m_under_1min  | ekf_ai    ] n= 36 drift median  23.9% p90  44.1% pass<10%  13.9% | end err median   12.0 m | 0.81 ms/frame | 62s
+[Y1 | ps_50m_under_1min  | ekf_ai_map] n= 36 drift median  21.6% p90  43.4% pass<10%  19.4% | end err median   10.8 m | 1.26 ms/frame | 96s
+CorePipeline: Loaded model weights from models/tiny_tcn_best.pth
+[Y1 | ps_1km_highway     | legacy    ] n=  8 drift median  90.0% p90  94.8% pass<10%   0.0% | end err median  900.6 m | 1.99 ms/frame | 152s
+[Y1 | ps_1km_highway     | ekf_only  ] n=  8 drift median  43.7% p90  91.0% pass<10%  12.5% | end err median  437.5 m | 0.34 ms/frame | 27s
+[Y1 | ps_1km_highway     | ekf_ai    ] n=  8 drift median  24.5% p90  34.4% pass<10%  12.5% | end err median  245.2 m | 1.04 ms/frame | 79s
+[Y1 | ps_1km_highway     | ekf_ai_map] n=  8 drift median  20.2% p90  48.2% pass<10%  25.0% | end err median  202.0 m | 1.28 ms/frame | 98s
+Saved results/benchmark_Y1.json

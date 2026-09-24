@@ -1,0 +1,6 @@
+[Y1 | outage_30s         | ekf_ai_map_oracle] n= 51 drift median   1.9% p90   4.6% pass<10%  96.1% | end err median    4.3 m | 1.15 ms/frame | 88s
+[Y1 | outage_60s         | ekf_ai_map_oracle] n= 42 drift median   0.9% p90   6.9% pass<10%  92.9% | end err median    4.0 m | 0.88 ms/frame | 68s
+[Y1 | outage_120s        | ekf_ai_map_oracle] n= 29 drift median   0.6% p90   5.7% pass<10%  89.7% | end err median    4.6 m | 0.64 ms/frame | 49s
+[Y1 | ps_50m_under_1min  | ekf_ai_map_oracle] n= 36 drift median   5.2% p90  12.4% pass<10%  83.3% | end err median    2.6 m | 0.66 ms/frame | 50s
+[Y1 | ps_1km_highway     | ekf_ai_map_oracle] n=  8 drift median   0.5% p90  10.6% pass<10%  87.5% | end err median    4.7 m | 0.64 ms/frame | 49s
+Saved results/v2/Y1_oracle.json

@@ -1,0 +1,30 @@
+{
+ "10Hz_no_map": {
+  "frames": 2999,
+  "latency_ms_mean": 0.6022017160906848,
+  "latency_ms_p99": 0.933469825540669,
+  "max_sustainable_rate_hz": 1660.5731489636128,
+  "realtime_factor": 166.05731489636128
+ },
+ "200Hz_no_map": {
+  "frames": 59980,
+  "latency_ms_mean": 0.10555817449696595,
+  "latency_ms_p99": 0.6517348122724798,
+  "max_sustainable_rate_hz": 9473.449164552792,
+  "realtime_factor": 47.36724582276397
+ },
+ "10Hz_full_system": {
+  "frames": 2999,
+  "latency_ms_mean": 0.8858690238546887,
+  "latency_ms_p99": 1.6793626945582216,
+  "max_sustainable_rate_hz": 1128.835045669271,
+  "realtime_factor": 112.8835045669271
+ },
+ "200Hz_full_system": {
+  "frames": 59980,
+  "latency_ms_mean": 0.11625260320997421,
+  "latency_ms_p99": 0.6791793345473706,
+  "max_sustainable_rate_hz": 8601.957912235399,
+  "realtime_factor": 43.009789561176994
+ }
+}

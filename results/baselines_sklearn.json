@@ -1,0 +1,18 @@
+{
+ "ridge": {
+  "test_mae": 2.5734167098999023,
+  "test_rmse": 3.265401840209961,
+  "outage60_median_pct": 17.90695571899414,
+  "outage60_mean_pct": 23.0479793548584,
+  "hold_last_speed_median_pct": 36.267791748046875,
+  "fit_s": 5.590143918991089
+ },
+ "hist_gbr": {
+  "test_mae": 1.71691495395079,
+  "test_rmse": 2.3567363487552377,
+  "outage60_median_pct": 9.970605227812234,
+  "outage60_mean_pct": 11.662609461395661,
+  "hold_last_speed_median_pct": 36.267791748046875,
+  "fit_s": 31.708715200424194
+ }
+}

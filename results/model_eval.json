@@ -1,0 +1,55 @@
+{
+ "weights": "models/tiny_tcn_best.pth",
+ "test": {
+  "n": 10341,
+  "mae": 1.586820125579834,
+  "rmse": 2.350527286529541,
+  "bias": -0.33994483947753906,
+  "mae_by_speed": {
+   "0-0.3 m/s": 0.342,
+   "0.3-5 m/s": 1.143,
+   "5-10 m/s": 1.666,
+   "10-20 m/s": 2.196,
+   "20-40 m/s": 7.754
+  },
+  "stationary_f1": 0.8453796889295517,
+  "z_std": 1.013742446899414,
+  "predict_mean_mae": 3.74236798286438,
+  "mae_without_gnss_ref": 1.8352243900299072,
+  "mae_with_gnss_ref": 1.5045409202575684,
+  "outage60": {
+   "n": 162,
+   "model_with_ref_median_pct": 9.932445526123047,
+   "model_with_ref_mean_pct": 11.071341514587402,
+   "model_without_ref_median_pct": 8.004358291625977,
+   "hold_last_speed_median_pct": 36.267791748046875,
+   "hold_last_speed_mean_pct": 49.04077911376953
+  }
+ },
+ "ood": {
+  "n": 18224,
+  "mae": 8.364057540893555,
+  "rmse": 10.18182373046875,
+  "bias": -7.474881172180176,
+  "mae_by_speed": {
+   "0-0.3 m/s": 3.011,
+   "0.3-5 m/s": 3.573,
+   "5-10 m/s": 1.906,
+   "10-20 m/s": 6.605,
+   "20-40 m/s": 13.476
+  },
+  "stationary_f1": 0.7117273252455228,
+  "z_std": 4.090070724487305,
+  "predict_mean_mae": 6.127207279205322,
+  "mae_without_gnss_ref": 9.67933464050293,
+  "mae_with_gnss_ref": 7.941147327423096,
+  "outage60": {
+   "n": 287,
+   "model_with_ref_median_pct": 46.95770263671875,
+   "model_with_ref_mean_pct": 45.19296646118164,
+   "model_without_ref_median_pct": 53.22499465942383,
+   "hold_last_speed_median_pct": 10.673295021057129,
+   "hold_last_speed_mean_pct": 25.579782485961914
+  }
+ }
+}

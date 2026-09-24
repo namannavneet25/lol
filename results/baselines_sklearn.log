@@ -1,0 +1,3 @@
+Train (57042, 84), test (10341, 84)
+ridge     test MAE 2.57 m/s | RMSE 3.27 | 60 s outage error median 17.9% mean 23.0% (hold-speed 36.3%)
+hist_gbr  test MAE 1.72 m/s | RMSE 2.36 | 60 s outage error median 10.0% mean 11.7% (hold-speed 36.3%)

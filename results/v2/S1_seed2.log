@@ -1,0 +1,16 @@
+[S1 | outage_30s         | ekf_only  ] n= 37 drift median  29.2% p90  68.2% pass<10%   8.1% | end err median   68.6 m | 0.60 ms/frame | 33s
+[S1 | outage_30s         | ekf_ai    ] n= 37 drift median  18.3% p90  35.7% pass<10%  18.9% | end err median   46.0 m | 1.51 ms/frame | 81s
+[S1 | outage_30s         | ekf_ai_map] n= 37 drift median  16.1% p90  32.2% pass<10%  40.5% | end err median   30.8 m | 2.39 ms/frame | 127s
+[S1 | outage_60s         | ekf_only  ] n= 32 drift median  28.9% p90  88.9% pass<10%   6.2% | end err median  135.7 m | 0.66 ms/frame | 36s
+[S1 | outage_60s         | ekf_ai    ] n= 32 drift median  16.6% p90  35.2% pass<10%  28.1% | end err median   73.5 m | 1.32 ms/frame | 71s
+[S1 | outage_60s         | ekf_ai_map] n= 32 drift median   9.2% p90  20.6% pass<10%  53.1% | end err median   40.2 m | 1.55 ms/frame | 83s
+[S1 | outage_120s        | ekf_only  ] n= 23 drift median  34.9% p90  71.6% pass<10%   0.0% | end err median  329.1 m | 0.61 ms/frame | 34s
+[S1 | outage_120s        | ekf_ai    ] n= 23 drift median  12.6% p90  41.5% pass<10%  26.1% | end err median  132.5 m | 1.31 ms/frame | 70s
+[S1 | outage_120s        | ekf_ai_map] n= 23 drift median   9.1% p90  29.8% pass<10%  52.2% | end err median   74.4 m | 1.53 ms/frame | 81s
+[S1 | ps_50m_under_1min  | ekf_only  ] n= 28 drift median  15.1% p90  47.5% pass<10%  25.0% | end err median    7.6 m | 0.63 ms/frame | 35s
+[S1 | ps_50m_under_1min  | ekf_ai    ] n= 28 drift median  19.7% p90  33.0% pass<10%  17.9% | end err median    9.9 m | 1.37 ms/frame | 73s
+[S1 | ps_50m_under_1min  | ekf_ai_map] n= 28 drift median  16.8% p90  32.2% pass<10%  32.1% | end err median    8.5 m | 1.57 ms/frame | 84s
+[S1 | ps_1km_highway     | ekf_only  ] n=  4 drift median  15.6% p90  41.0% pass<10%  25.0% | end err median  156.3 m | 0.64 ms/frame | 36s
+[S1 | ps_1km_highway     | ekf_ai    ] n=  4 drift median  18.8% p90  27.4% pass<10%   0.0% | end err median  188.3 m | 1.35 ms/frame | 72s
+[S1 | ps_1km_highway     | ekf_ai_map] n=  4 drift median  14.5% p90  23.7% pass<10%  25.0% | end err median  144.6 m | 1.62 ms/frame | 86s
+Saved results/v2/S1_seed2.json

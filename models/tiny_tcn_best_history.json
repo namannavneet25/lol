@@ -1,0 +1,287 @@
+{
+ "params": 25763,
+ "window": 40,
+ "best_epoch": 25,
+ "history": [
+  {
+   "epoch": 1,
+   "loss": 10.722764864946024,
+   "val_mae": 4.202132225036621,
+   "val_outage60_median_pct": 25.37120819091797,
+   "val_outage60_mean_pct": 34.79457092285156
+  },
+  {
+   "epoch": 2,
+   "loss": 6.525842996744009,
+   "val_mae": 2.9647350311279297,
+   "val_outage60_median_pct": 18.675167083740234,
+   "val_outage60_mean_pct": 27.04281234741211
+  },
+  {
+   "epoch": 3,
+   "loss": 4.389063532535847,
+   "val_mae": 3.0114457607269287,
+   "val_outage60_median_pct": 18.75545310974121,
+   "val_outage60_mean_pct": 24.32868194580078
+  },
+  {
+   "epoch": 4,
+   "loss": 4.036961045020666,
+   "val_mae": 3.0742380619049072,
+   "val_outage60_median_pct": 19.772850036621094,
+   "val_outage60_mean_pct": 24.401716232299805
+  },
+  {
+   "epoch": 5,
+   "loss": 3.77309096368969,
+   "val_mae": 2.874358654022217,
+   "val_outage60_median_pct": 15.564813613891602,
+   "val_outage60_mean_pct": 19.644685745239258
+  },
+  {
+   "epoch": 6,
+   "loss": 3.5070189787791324,
+   "val_mae": 3.128129720687866,
+   "val_outage60_median_pct": 18.510311126708984,
+   "val_outage60_mean_pct": 22.93041229248047
+  },
+  {
+   "epoch": 7,
+   "loss": 3.3396440999120727,
+   "val_mae": 2.5589945316314697,
+   "val_outage60_median_pct": 13.546350479125977,
+   "val_outage60_mean_pct": 17.785274505615234
+  },
+  {
+   "epoch": 8,
+   "loss": 3.224638118703141,
+   "val_mae": 2.5826497077941895,
+   "val_outage60_median_pct": 14.738080978393555,
+   "val_outage60_mean_pct": 18.697158813476562
+  },
+  {
+   "epoch": 9,
+   "loss": 3.0806180676843367,
+   "val_mae": 2.6288046836853027,
+   "val_outage60_median_pct": 16.74614715576172,
+   "val_outage60_mean_pct": 19.97038459777832
+  },
+  {
+   "epoch": 10,
+   "loss": 2.989452405872508,
+   "val_mae": 2.8881173133850098,
+   "val_outage60_median_pct": 22.25096893310547,
+   "val_outage60_mean_pct": 29.186447143554688
+  },
+  {
+   "epoch": 11,
+   "loss": 2.898218434081118,
+   "val_mae": 2.4171087741851807,
+   "val_outage60_median_pct": 14.849658966064453,
+   "val_outage60_mean_pct": 19.29966926574707
+  },
+  {
+   "epoch": 12,
+   "loss": 2.832268900341458,
+   "val_mae": 2.412647008895874,
+   "val_outage60_median_pct": 15.177568435668945,
+   "val_outage60_mean_pct": 17.707359313964844
+  },
+  {
+   "epoch": 13,
+   "loss": 2.7791927757426205,
+   "val_mae": 2.2966623306274414,
+   "val_outage60_median_pct": 14.797334671020508,
+   "val_outage60_mean_pct": 17.52429962158203
+  },
+  {
+   "epoch": 14,
+   "loss": 2.6750128146929617,
+   "val_mae": 2.315066337585449,
+   "val_outage60_median_pct": 15.52170181274414,
+   "val_outage60_mean_pct": 18.577350616455078
+  },
+  {
+   "epoch": 15,
+   "loss": 2.623991675865956,
+   "val_mae": 2.1577048301696777,
+   "val_outage60_median_pct": 15.191936492919922,
+   "val_outage60_mean_pct": 16.954561233520508
+  },
+  {
+   "epoch": 16,
+   "loss": 2.550796094103756,
+   "val_mae": 2.2948851585388184,
+   "val_outage60_median_pct": 13.97663688659668,
+   "val_outage60_mean_pct": 16.970630645751953
+  },
+  {
+   "epoch": 17,
+   "loss": 2.5315046865715938,
+   "val_mae": 2.338289260864258,
+   "val_outage60_median_pct": 12.21358871459961,
+   "val_outage60_mean_pct": 16.735353469848633
+  },
+  {
+   "epoch": 18,
+   "loss": 2.479146803036714,
+   "val_mae": 2.161874771118164,
+   "val_outage60_median_pct": 15.128545761108398,
+   "val_outage60_mean_pct": 17.234041213989258
+  },
+  {
+   "epoch": 19,
+   "loss": 2.481404713076404,
+   "val_mae": 2.2195370197296143,
+   "val_outage60_median_pct": 12.527898788452148,
+   "val_outage60_mean_pct": 17.03856658935547
+  },
+  {
+   "epoch": 20,
+   "loss": 2.3931934150875125,
+   "val_mae": 2.2861711978912354,
+   "val_outage60_median_pct": 15.25135612487793,
+   "val_outage60_mean_pct": 19.415128707885742
+  },
+  {
+   "epoch": 21,
+   "loss": 2.363622462647593,
+   "val_mae": 2.2733945846557617,
+   "val_outage60_median_pct": 13.70036506652832,
+   "val_outage60_mean_pct": 16.99608612060547
+  },
+  {
+   "epoch": 22,
+   "loss": 2.3593446525753055,
+   "val_mae": 2.2612950801849365,
+   "val_outage60_median_pct": 15.454887390136719,
+   "val_outage60_mean_pct": 17.806045532226562
+  },
+  {
+   "epoch": 23,
+   "loss": 2.33231699721426,
+   "val_mae": 2.272993803024292,
+   "val_outage60_median_pct": 15.167476654052734,
+   "val_outage60_mean_pct": 18.164596557617188
+  },
+  {
+   "epoch": 24,
+   "loss": 2.307888090610504,
+   "val_mae": 2.229353189468384,
+   "val_outage60_median_pct": 13.587596893310547,
+   "val_outage60_mean_pct": 16.95929527282715
+  },
+  {
+   "epoch": 25,
+   "loss": 2.265097862125462,
+   "val_mae": 2.1653175354003906,
+   "val_outage60_median_pct": 11.927366256713867,
+   "val_outage60_mean_pct": 16.31696128845215
+  },
+  {
+   "epoch": 26,
+   "loss": 2.2717060100319038,
+   "val_mae": 2.2859339714050293,
+   "val_outage60_median_pct": 14.15967082977295,
+   "val_outage60_mean_pct": 17.46921157836914
+  },
+  {
+   "epoch": 27,
+   "loss": 2.2098817152854724,
+   "val_mae": 2.301973819732666,
+   "val_outage60_median_pct": 15.372777938842773,
+   "val_outage60_mean_pct": 18.50307273864746
+  },
+  {
+   "epoch": 28,
+   "loss": 2.178244395643218,
+   "val_mae": 2.197479724884033,
+   "val_outage60_median_pct": 14.90918254852295,
+   "val_outage60_mean_pct": 17.233556747436523
+  },
+  {
+   "epoch": 29,
+   "loss": 2.154466132322947,
+   "val_mae": 2.230031728744507,
+   "val_outage60_median_pct": 14.418874740600586,
+   "val_outage60_mean_pct": 18.17937660217285
+  },
+  {
+   "epoch": 30,
+   "loss": 2.1609947212740908,
+   "val_mae": 2.206838369369507,
+   "val_outage60_median_pct": 14.157488822937012,
+   "val_outage60_mean_pct": 16.957555770874023
+  },
+  {
+   "epoch": 31,
+   "loss": 2.1101261840926275,
+   "val_mae": 2.1892731189727783,
+   "val_outage60_median_pct": 14.968584060668945,
+   "val_outage60_mean_pct": 17.460594177246094
+  },
+  {
+   "epoch": 32,
+   "loss": 2.1154359008511925,
+   "val_mae": 2.2685084342956543,
+   "val_outage60_median_pct": 15.216336250305176,
+   "val_outage60_mean_pct": 17.725852966308594
+  },
+  {
+   "epoch": 33,
+   "loss": 2.0997418007280073,
+   "val_mae": 2.297053813934326,
+   "val_outage60_median_pct": 14.474130630493164,
+   "val_outage60_mean_pct": 17.543426513671875
+  },
+  {
+   "epoch": 34,
+   "loss": 2.0748256185115914,
+   "val_mae": 2.2583956718444824,
+   "val_outage60_median_pct": 14.80804443359375,
+   "val_outage60_mean_pct": 17.558046340942383
+  },
+  {
+   "epoch": 35,
+   "loss": 2.058897060206813,
+   "val_mae": 2.2424213886260986,
+   "val_outage60_median_pct": 15.327348709106445,
+   "val_outage60_mean_pct": 17.765928268432617
+  },
+  {
+   "epoch": 36,
+   "loss": 2.0353622854265394,
+   "val_mae": 2.2641513347625732,
+   "val_outage60_median_pct": 15.258405685424805,
+   "val_outage60_mean_pct": 17.77512550354004
+  },
+  {
+   "epoch": 37,
+   "loss": 2.070854128935398,
+   "val_mae": 2.2228994369506836,
+   "val_outage60_median_pct": 14.830362319946289,
+   "val_outage60_mean_pct": 17.415861129760742
+  },
+  {
+   "epoch": 38,
+   "loss": 2.0573008529141417,
+   "val_mae": 2.246166944503784,
+   "val_outage60_median_pct": 15.3324613571167,
+   "val_outage60_mean_pct": 17.653032302856445
+  },
+  {
+   "epoch": 39,
+   "loss": 2.0590333867276835,
+   "val_mae": 2.256096839904785,
+   "val_outage60_median_pct": 15.443077087402344,
+   "val_outage60_mean_pct": 17.814472198486328
+  },
+  {
+   "epoch": 40,
+   "loss": 2.051700399472163,
+   "val_mae": 2.2485191822052,
+   "val_outage60_median_pct": 15.409608840942383,
+   "val_outage60_mean_pct": 17.711505889892578
+  }
+ ]
+}

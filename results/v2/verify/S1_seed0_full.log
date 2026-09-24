@@ -1,0 +1,6 @@
+[S1 | outage_30s         | ekf_ai_map] n= 37 drift median  16.4% p90  31.2% pass<10%  43.2% | end err median   33.5 m | 1.46 ms/frame | 78s
+[S1 | outage_60s         | ekf_ai_map] n= 32 drift median   9.4% p90  23.1% pass<10%  53.1% | end err median   36.3 m | 1.51 ms/frame | 80s
+[S1 | outage_120s        | ekf_ai_map] n= 23 drift median   8.2% p90  29.7% pass<10%  52.2% | end err median   72.3 m | 1.49 ms/frame | 79s
+[S1 | ps_50m_under_1min  | ekf_ai_map] n= 28 drift median  13.4% p90  31.1% pass<10%  39.3% | end err median    6.8 m | 1.54 ms/frame | 82s
+[S1 | ps_1km_highway     | ekf_ai_map] n=  4 drift median  14.8% p90  20.0% pass<10%  25.0% | end err median  148.1 m | 1.51 ms/frame | 81s
+Saved results/v2/verify/S1_seed0_full.json

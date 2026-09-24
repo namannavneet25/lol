@@ -1,0 +1,16 @@
+[Vw02 | outage_30s         | ekf_only  ] n= 29 drift median  18.8% p90  57.4% pass<10%  20.7% | end err median  108.5 m | 0.61 ms/frame | 34s
+[Vw02 | outage_30s         | ekf_ai    ] n= 29 drift median  54.3% p90  71.7% pass<10%   0.0% | end err median  332.7 m | 1.26 ms/frame | 69s
+[Vw02 | outage_30s         | ekf_ai_map] n= 29 drift median  55.3% p90  72.1% pass<10%   3.4% | end err median  326.0 m | 1.30 ms/frame | 71s
+[Vw02 | outage_60s         | ekf_only  ] n= 21 drift median  39.4% p90  82.9% pass<10%  14.3% | end err median  509.3 m | 0.58 ms/frame | 32s
+[Vw02 | outage_60s         | ekf_ai    ] n= 21 drift median  58.9% p90  81.1% pass<10%   0.0% | end err median  755.6 m | 0.95 ms/frame | 52s
+[Vw02 | outage_60s         | ekf_ai_map] n= 21 drift median  59.6% p90  83.3% pass<10%   4.8% | end err median  786.9 m | 1.17 ms/frame | 64s
+[Vw02 | outage_120s        | ekf_only  ] n= 12 drift median  47.7% p90  97.1% pass<10%   8.3% | end err median 1348.4 m | 0.61 ms/frame | 35s
+[Vw02 | outage_120s        | ekf_ai    ] n= 12 drift median  66.2% p90  88.7% pass<10%   0.0% | end err median 1771.6 m | 1.03 ms/frame | 56s
+[Vw02 | outage_120s        | ekf_ai_map] n= 12 drift median  60.6% p90  84.6% pass<10%   0.0% | end err median 1616.8 m | 1.38 ms/frame | 75s
+[Vw02 | ps_50m_under_1min  | ekf_only  ] n= 26 drift median  24.1% p90  55.6% pass<10%  11.5% | end err median   12.2 m | 0.63 ms/frame | 36s
+[Vw02 | ps_50m_under_1min  | ekf_ai    ] n= 26 drift median  43.0% p90  74.1% pass<10%   0.0% | end err median   22.0 m | 1.19 ms/frame | 65s
+[Vw02 | ps_50m_under_1min  | ekf_ai_map] n= 26 drift median  41.6% p90  71.6% pass<10%   0.0% | end err median   21.5 m | 1.15 ms/frame | 62s
+[Vw02 | ps_1km_highway     | ekf_only  ] n= 18 drift median  20.7% p90  39.4% pass<10%  16.7% | end err median  207.5 m | 0.45 ms/frame | 25s
+[Vw02 | ps_1km_highway     | ekf_ai    ] n= 18 drift median  55.6% p90  70.2% pass<10%   0.0% | end err median  556.9 m | 1.03 ms/frame | 56s
+[Vw02 | ps_1km_highway     | ekf_ai_map] n= 18 drift median  58.6% p90  72.0% pass<10%   0.0% | end err median  586.9 m | 1.31 ms/frame | 71s
+Saved results/benchmark_Vw02.json

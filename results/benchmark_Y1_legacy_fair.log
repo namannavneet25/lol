@@ -1,0 +1,16 @@
+CorePipeline: Loaded sensor calibration from calibration.json
+CorePipeline: Loaded model weights from models/tiny_tcn_best.pth
+[Y1 | outage_30s         | legacy    ] n= 51 drift median  85.9% p90 162.6% pass<10%   0.0% | end err median  189.3 m | 2.63 ms/frame | 200s
+CorePipeline: Loaded sensor calibration from calibration.json
+CorePipeline: Loaded model weights from models/tiny_tcn_best.pth
+[Y1 | outage_60s         | legacy    ] n= 42 drift median  75.4% p90 126.2% pass<10%   0.0% | end err median  369.5 m | 4.23 ms/frame | 319s
+CorePipeline: Loaded sensor calibration from calibration.json
+CorePipeline: Loaded model weights from models/tiny_tcn_best.pth
+[Y1 | outage_120s        | legacy    ] n= 29 drift median  59.1% p90 129.3% pass<10%   0.0% | end err median  513.9 m | 3.42 ms/frame | 259s
+CorePipeline: Loaded sensor calibration from calibration.json
+CorePipeline: Loaded model weights from models/tiny_tcn_best.pth
+[Y1 | ps_50m_under_1min  | legacy    ] n= 36 drift median  69.3% p90 153.5% pass<10%   5.6% | end err median   34.9 m | 3.31 ms/frame | 250s
+CorePipeline: Loaded sensor calibration from calibration.json
+CorePipeline: Loaded model weights from models/tiny_tcn_best.pth
+[Y1 | ps_1km_highway     | legacy    ] n=  8 drift median  78.8% p90 131.3% pass<10%   0.0% | end err median  788.3 m | 1.02 ms/frame | 79s
+Saved results/benchmark_Y1_legacy_fair.json
