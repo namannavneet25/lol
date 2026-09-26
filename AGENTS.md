@@ -108,6 +108,51 @@ PS26168/
 
 ---
 
+## 🧭 Working Rules & Current State (read before starting new work)
+
+**Current state (2026-09-24).** Full system on S1: 9.2 % median drift at 60 s outages [95 % CI 5.6–12.5; 32
+distinct outages, 3 seeds], 52 % of outages under 10 %; 1 s GNSS latency ≈ 11 %; phone's own GPS 22–42 %; perfect
+speed ≈ 1 % (speed accuracy is the dominant error). The PS worked examples (50 m < 5 m, 1 km < 100 m) are not yet
+met. Numbers: `docs/RESULTS.md`; prioritised gap-closing plan and acceptance criteria: `docs/NEXT_STEPS.md`.
+A sibling folder `PS26168-ModelOnlyUpdated` (zip `PS26168-ml-only*.zip`) is a finished side experiment applying only
+the ML changes to the original code; this folder is the recommended codebase.
+
+### Evaluation discipline (how results must be produced and reported)
+- **Tune on Y1 only.** Choose models, thresholds and fusion settings on the validation trip Y1. The test trip S1 and the
+  Driver E OOD trips are for reporting only; picking a change because it helps S1/OOD is leakage (an "AI trust
+  monitor" was rejected for exactly this: it hurt Y1).
+- **Headline metric** = end-of-outage position error as % of distance driven (PS target < 10 %), from
+  `src/evaluation/benchmark.py`; also report the pass rate (share of outages < 10 %), not just the median.
+- **Seeds are not independent samples.** GNSS seeds replay the *same* outage windows with different noise. Pool
+  seeds, then do statistics over distinct outages (cluster bootstrap or one paired value per outage). Counting
+  each outage once per seed inflates significance — this mistake was made once and had to be corrected.
+- **Default GNSS is idealised** (1 Hz, no latency). Always also run `--gnss-latency 1.0` and `--gnss-source phone`
+  (IO-VNBD phone GPS gives one fix per ~9 s; it exposed a sparse-GNSS re-anchoring bug before).
+- **Benchmarking the original engine**: relocate trips to its hard-coded origin (26.1445, 91.7362; flat-earth
+  111320 m/deg) and use the original `calibration.json`, otherwise it starts ~9000 km away and never converges
+  (this once inflated the legacy result from 95 % to 118 %).
+- **Independent review.** Before reporting an experiment's conclusion or finishing a large change, have it
+  reviewed by a fresh agent/person without the working context, given a neutral brief (scope + these rules, not
+  the expected answer), ideally running its own verification. A same-context review once missed that the model was
+  fed permuted gyro axes.
+- **Report honestly**: quote measured numbers with CIs and sample sizes, state when a target is not met, and update
+  the docs (`docs/SUMMARY.md` index plus the relevant results/changes docs) whenever numbers change. List every new
+  document in `docs/SUMMARY.md`.
+
+### Project owner's constraints
+- **Do not commit or push to GitHub.** Code is shared with the team as zip files; `.gitignore` defines what goes in
+  the code-only zip.
+- **Never share** the TLS key (`src/web/.certs/`), `.venv/` or `.git/` in zips.
+- **IO-VNBD data declares no licence**: keep it within the team; do not publish it or upload it to external services.
+- Never modify `data/raw/`.
+- **The team uses Linux and Windows** (the full test sequence passed on Windows with Python 3.14 on 2026-09-25). Keep code cross-platform:
+  - no Unix-only paths (e.g. `.venv/bin`);
+  - explicit UTF-8 for text I/O, and output that doesn't crash on non-ASCII characters;
+  - short pytest `ids=` for large parametrized values.
+  Give both bash and PowerShell commands in setup instructions.
+
+---
+
 ## 🚀 Commands (from the repo root, inside `.venv`)
 
 | Step | Command |
@@ -121,5 +166,5 @@ PS26168/
 | Evaluate model | `python src/models/evaluate_models.py` · baselines: `python src/models/sklearn_baseline.py` |
 | Export ONNX | `python src/models/export_onnx.py` |
 | PS benchmark | `python src/evaluation/benchmark.py --trips S1 Y1`. Options: `--seed N`, `--gnss-latency S`, `--gnss-source phone`, `--configs ekf_ai_map_oracle`, `--legacy-root <snapshot>`, `--rate-test`. Pool seeds and CIs: `python src/evaluation/robustness_summary.py` |
-| Tests (full guide: `docs/TESTING.md`) | `python -m pytest tests` · `python tests/js/make_fixture.py && node tests/js/parity.test.mjs` · `cd tests/e2e && npm install && node ui_e2e.mjs` |
+| Tests (full guide: `docs/TESTING.md`) | `python -m pytest tests` · `python tests/js/make_fixture.py && node tests/js/parity.test.mjs` · `npm install --prefix tests/e2e` then `node tests/e2e/ui_e2e.mjs` |
 | Web app | `python src/web/setup_vendor.py && python src/web/export_replay.py --trip S1` (and, for Live map matching, `python src/web/export_live_map.py --lat .. --lon ..`), then `python src/web/server.py` → `https://<LAN-IP>:8443/nav/`. Run the server only on trusted networks: the calibration upload has no login. |

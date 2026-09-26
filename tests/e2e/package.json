@@ -3,5 +3,7 @@
   "private": true,
   "type": "module",
   "description": "Headless-Chrome end-to-end test of the IDR web apps (npm install, then node ui_e2e.mjs)",
-  "dependencies": { "puppeteer-core": "^23.0.0" }
+  "dependencies": {
+    "puppeteer-core": "^25.12.0"
+  }
 }

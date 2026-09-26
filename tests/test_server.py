@@ -79,7 +79,8 @@ def test_calibration_upload_accepts_same_origin_json(srv):
     (b"[" * 20000 + b"]" * 20000, None, "application/json", 400),                                # deep nesting
     ({**VALID, "resting_gravity_vector": {"x": True, "y": 0, "z": 9.8}}, None, "application/json", 400),
     ({**VALID, "is_calibrated": "no"}, None, "application/json", 400),
-])
+], ids=["cross-origin", "text-plain", "zero-gravity", "string-bias", "oversized", "not-json", "nan", "infinity",
+        "huge-number", "deep-nesting", "bool-gravity", "string-flag"])   # short ids: Windows caps env vars at 32767 chars
 def test_calibration_upload_rejects_bad_requests(srv, payload, origin, ctype, code):
     port, root = srv
     assert _post(port, payload, origin=origin, ctype=ctype) == code

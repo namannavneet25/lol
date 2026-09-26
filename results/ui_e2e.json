@@ -18,7 +18,7 @@
   {
    "name": "outage logged with a drift value",
    "ok": true,
-   "detail": "1 73 s 571 m 8.6 m 1.5%"
+   "detail": "1 72 s 567 m 9.4 m 1.7%"
   },
   {
    "name": "replay keeps up with the 16x setting",
@@ -61,10 +61,10 @@
    "detail": "browser: blocked; calibration.json unchanged"
   }
  ],
- "started": "2026-09-24T07:54:22.674Z",
+ "started": "2026-09-25T14:49:17.725Z",
  "replay": {
   "speedup": 16,
-  "outage_row": "1 73 s 571 m 8.6 m 1.5%"
+  "outage_row": "1 72 s 567 m 9.4 m 1.7%"
  },
  "failures": 0
 }

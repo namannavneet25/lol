@@ -74,6 +74,13 @@ Every change below addresses one of these, or a requirement from `ProblemStateme
 | `doc1.md`–`doc4.md` | Added a "superseded" banner, because their accuracy claims don't reproduce. |
 | `.gitignore`, `requirements.txt` (new) | Keep data, maps, WASM and TLS keys untracked. Pin the environment (`.venv`, Python 3.10). |
 
+## Windows support (2026-09-25, from the first team run on Windows)
+| File | Why |
+|---|---|
+| `src/web/server.py` | The startup banner's emoji crashed the server on Windows when its output was redirected (cp1252 encoding). The server now replaces characters that can't be printed. |
+| `tests/e2e/ui_e2e.mjs` | It now uses the activated virtual environment, or else `.venv` on Windows or Unix, and looks for Chrome in the usual install locations on Windows, macOS and Linux. It waits up to 60 s for the server, and stops with the server's own error output (and a hint when packages are missing) instead of a vague "connection refused". The e2e test passed on Windows. |
+| `src/web/server.py`, `tests/test_server.py` | Two fixes. The server now rejects any URL containing a NUL byte: newer Python on Windows (3.14) no longer raises on it during path resolution, so a request could reach the stdlib file handler and drop the connection instead of returning 404. The server tests' two oversized payload cases now get short IDs: the long ones exceeded the Windows limit on environment variable length, since pytest stores the current test's ID in an environment variable. |
+
 ## Tried and rejected (evidence in the plan's deviations table)
 - **AI "trust monitor"** (online self-check of the model): made validation worse (8.8 % → 9.6–13.9 %), so it was removed.
 - **High-speed oversampling:** no gain on validation. The checkpoint is kept in `results/experiments/`.

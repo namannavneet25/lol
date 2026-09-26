@@ -1,5 +1,5 @@
 // End-to-end test of the IDR web apps in headless Chrome (uses the system Chrome via puppeteer-core).
-//   cd tests/e2e && npm install && node ui_e2e.mjs      (needs: python src/web/setup_vendor.py,
+//   npm install --prefix tests/e2e && node tests/e2e/ui_e2e.mjs   (from the repo root; needs: python src/web/setup_vendor.py,
 //                                                        python src/web/export_replay.py --trip S1)
 // Starts src/web/server.py itself, checks the navigator (replay, simulated tunnel, recovery, live mode)
 // and the calibration upload (same-origin accepted, cross-origin blocked), then writes results/ui_e2e.json.
@@ -14,12 +14,23 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";      // the local server uses a 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const PORT = 8547, BASE = `https://127.0.0.1:${PORT}`;
 const WIN = process.platform === "win32";
-const VENV_PY = join(ROOT, WIN ? ".venv/Scripts/python.exe" : ".venv/bin/python");
-const PY = existsSync(VENV_PY) ? VENV_PY : (WIN ? "python" : "python3");
-const CHROME = process.env.CHROME || {
-  win32: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-  darwin: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-}[process.platform] || "/usr/bin/google-chrome";
+// Python for the server: the activated virtual environment, else the project's .venv, else python on PATH
+const venvPython = (dir) => dir && join(dir, WIN ? "Scripts/python.exe" : "bin/python");
+const PY = [venvPython(process.env.VIRTUAL_ENV), venvPython(join(ROOT, ".venv"))].find((p) => p && existsSync(p))
+           || (WIN ? "python" : "python3");
+// CHROME = full path of the Chrome executable (chrome://version shows it as "Executable Path"); else try the usual places
+const CHROME_CANDIDATES = {
+  win32: [join(process.env.ProgramFiles || "C:\\Program Files", "Google/Chrome/Application/chrome.exe"),
+          join(process.env["ProgramFiles(x86)"] || "C:\\Program Files (x86)", "Google/Chrome/Application/chrome.exe"),
+          join(process.env.LOCALAPPDATA || "", "Google/Chrome/Application/chrome.exe")],
+  darwin: ["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"],
+}[process.platform] || ["/usr/bin/google-chrome", "/usr/bin/google-chrome-stable", "/usr/bin/chromium", "/usr/bin/chromium-browser"];
+const CHROME = process.env.CHROME || CHROME_CANDIDATES.find((p) => existsSync(p));
+if (!CHROME || !existsSync(CHROME)) {
+  console.error(`Chrome not found (${process.env.CHROME ? "CHROME=" + process.env.CHROME : "tried " + CHROME_CANDIDATES.join(", ")}).\n` +
+                `Set CHROME to the full path of the Chrome executable: open chrome://version and copy "Executable Path".`);
+  process.exit(1);
+}
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const results = { checks: [], started: new Date().toISOString() };
 let failures = 0;
@@ -33,11 +44,25 @@ const calPath = join(ROOT, "calibration.json"), calBackup = join(ROOT, ".calibra
 const hadCal = existsSync(calPath);
 if (hadCal) copyFileSync(calPath, calBackup);
 
-const server = spawn(PY, ["src/web/server.py", "--port", String(PORT), "--ip", "127.0.0.1"], { cwd: ROOT, stdio: "ignore" });
+const server = spawn(PY, ["src/web/server.py", "--port", String(PORT), "--ip", "127.0.0.1"],
+                     { cwd: ROOT, stdio: ["ignore", "ignore", "pipe"], env: { ...process.env, PYTHONUTF8: "1" } });
+let serverErr = "", serverExit = null;
+server.stderr.on("data", (d) => { serverErr += d; });
+server.on("exit", (code) => { serverExit = code; });
+server.on("error", (e) => { serverErr += `could not start ${PY}: ${e.message}\n`; serverExit = -1; });
 let browser;
 try {
-  for (let i = 0; i < 40; i++) {                        // wait for the server
-    try { await fetch(`${BASE}/nav/`); break; } catch { await sleep(250); }
+  let up = false;
+  for (let i = 0; i < 240 && serverExit === null; i++) {   // wait up to 60 s (first start creates the TLS key)
+    try { await fetch(`${BASE}/nav/`); up = true; break; } catch { await sleep(250); }
+  }
+  if (!up) {
+    throw new Error(`web server did not start on port ${PORT} (python: ${PY}` +
+                    (serverExit !== null ? `, exited with code ${serverExit}` : ", still not answering after 60 s") +
+                    `)${serverErr ? "\n--- server error output ---\n" + serverErr.trim() : ""}` +
+                    (/ModuleNotFoundError/.test(serverErr)
+                      ? "\n--- hint: this Python lacks the project's packages. Activate the project's virtual environment " +
+                        "(step A2) or run: pip install -r requirements.txt" : ""));
   }
   browser = await puppeteer.launch({ executablePath: CHROME, headless: "new",
     args: ["--ignore-certificate-errors", "--no-sandbox", "--window-size=430,900"] });

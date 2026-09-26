@@ -27,7 +27,8 @@ python tests/js/make_gnss_fixture.py && node tests/js/gnss_monitor.test.mjs   # 
 ## 2b. Browser end-to-end test (about 1 minute)
 Drives the real web apps in headless Chrome. It starts its own server on port 8547, and backs up and restores `calibration.json`.
 ```bash
-cd tests/e2e && npm install && node ui_e2e.mjs      # needs Chrome at /usr/bin/google-chrome (or set CHROME=...)
+npm install --prefix tests/e2e      # one-time, from the repo root
+node tests/e2e/ui_e2e.mjs            # finds Chrome in its default place on Linux/macOS/Windows, or set CHROME=...
 ```
 It runs 12 checks:
 - **Navigator, replay:** GNSS-aided → tunnel → dead reckoning → recovery, with an outage logged and the replay keeping up at 16×.
@@ -36,6 +37,7 @@ It runs 12 checks:
 - **Calibration upload:** a same-origin save is accepted, an invalid calibration is rejected, and a cross-origin page is blocked.
 
 Results go to `results/ui_e2e.json`, with a screenshot.
+The test starts the server with the activated virtual environment's Python, so activate it first. If Chrome is not found, set `CHROME` to the "Executable Path" shown at `chrome://version`. If the server fails to start, the test prints the server's error output. Passed on Linux and Windows. Windows setup (PowerShell): see `TEAM_SETUP_AND_TESTING.md`, which is shared alongside the zips.
 It needs the replay data and vendored runtime from §5 step 1.
 
 ## 3. Accuracy against the problem-statement target
